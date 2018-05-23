@@ -19,40 +19,52 @@ class LessonTabs extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.setModuleId(this.props.moduleId);
     }
 
-    componentWillReceiveProps(newProps){
+    componentWillReceiveProps(newProps) {
         this.setModuleId(newProps.moduleId);
         this.findAllLessonsForModule(newProps.moduleId);
     }
 
     setLessonTitle(event) {
-        this.setState({lesson: {
+        this.setState({
+            lesson: {
                 title: event.target.value
             }
         });
     }
 
-    createLesson(){
-        this.lessonService
-            .createLesson(this.state.moduleId, this.state.lesson)
-            .then(() => this.findAllLessonsForModule(this.state.moduleId));
+    createLesson() {
+        if (this.state.lesson.title === '') {
+            this.lessonService
+                .createLesson(this.state.moduleId, {
+                    title: 'Default Template'
+                })
+                .then(() => this.findAllLessonsForModule(this.state.moduleId));
+        }
+        else {
+            this.lessonService
+                .createLesson(this.state.moduleId, this.state.lesson)
+                .then(() => this.findAllLessonsForModule(this.state.moduleId));
+        }
     }
 
-    setModuleId(moduleId){
+    setModuleId(moduleId) {
         this.setState({moduleId: moduleId});
     }
 
-    findAllLessonsForModule(moduleId){
+    findAllLessonsForModule(moduleId) {
         this.lessonService
             .findAllLessonsForModule(moduleId)
-            .then((lessons) => {this.setState({lessons: lessons})});
+            .then((lessons) => {
+                this.setState({lessons: lessons})
+            });
     }
 
-    deleteLesson(lessonId){
-        if(window.confirm("Do you want to delete this lesson?")) {
+    deleteLesson(lessonId) {
+        if (window.confirm("Do you want to delete this lesson?")) {
             this.lessonService
                 .deleteLesson(lessonId)
                 .then(() => this.findAllLessonsForModule(this.state.moduleId))
@@ -63,27 +75,35 @@ class LessonTabs extends React.Component {
         let lessons =
             this.state.lessons.map((lesson) => {
                 return (<LessonTabItem key={lesson.id}
-                                        lesson={lesson}
-                                        delete={this.deleteLesson}/>)
+                                       lesson={lesson}
+                                       delete={this.deleteLesson}/>)
             });
         return lessons;
     }
 
     render() {
         return (
-            <div>
-                <input placeholder="New Module Name"
-                       className="form-control mr-sm-2 mb-2"
-                       onChange={this.setLessonTitle}>
-                </input>
-                <button type="button"
-                        className="btn btn-outline-primary btn-block"
-                        onClick={this.createLesson}>
-                    Create
-                </button>
-                <ul className="nav nav-tabs">
-                    {this.renderListOfLesson()}
-                </ul>
+            <div style={{width: '100%', height: '100%'}}>
+                <nav className="navbar navbar-dark bg-dark justify-content-between">
+                    <form className="form-inline" style={{width: '100%'}}>
+                        <input placeholder="New Lesson Title"
+                               className="form-control"
+                               onChange={this.setLessonTitle}
+                               style={{width: '80%'}}/>
+                        <button type="button"
+                                className="btn btn-primary btn-block ml-4"
+                                onClick={this.createLesson}
+                                style={{width: '15%'}}>
+                            Create
+                        </button>
+                    </form>
+                </nav>
+                <hr className= "bg-white"/>
+                <div className="container-fluid" style={{width: '100%', height: '100%'}}>
+                    <ul className="nav nav-tabs">
+                        {this.renderListOfLesson()}
+                    </ul>
+                </div>
             </div>
         )
     }

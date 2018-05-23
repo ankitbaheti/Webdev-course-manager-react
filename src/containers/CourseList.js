@@ -49,7 +49,7 @@ class CourseList extends React.Component {
                 function (course) {
                     return <CourseRow key={course.id}
                                       course={course}
-                                        delete = {this.deleteCourse}/>
+                                      delete = {this.deleteCourse}/>
                 }
             ,this)
         }

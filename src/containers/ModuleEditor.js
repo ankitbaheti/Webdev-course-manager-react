@@ -61,8 +61,8 @@ class ModuleEditor extends React.Component{
 
     render(){
         return(
-            <div>
-                <h5>Editing Module: {this.state.module.title}</h5>
+            <div className="bg-dark container-fluid p-2" style={{height: '100%'}}>
+                <h4 className="container-fluid">Editing Module: {this.state.module.title}</h4>
                 <LessonTabs moduleId={this.state.moduleId}/>
             </div>
         )

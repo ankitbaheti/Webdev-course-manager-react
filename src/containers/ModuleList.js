@@ -83,14 +83,14 @@ class ModuleList extends React.Component{
 
     render(){
         return(
-            <div>
-                <h4>Modules List of {this.state.courseTitle}</h4>
+            <div className="p-2">
+                <h4>Modules of {this.state.courseTitle}</h4>
                 <input placeholder="New Module Name"
                        className="form-control mr-sm-2 mb-2"
                        onChange={this.setModuleTitle}>
                 </input>
                 <button type="button"
-                        className="btn btn-outline-primary btn-block"
+                        className="btn btn-primary btn-block"
                         onClick={this.createModule}>
                     Create
                 </button>

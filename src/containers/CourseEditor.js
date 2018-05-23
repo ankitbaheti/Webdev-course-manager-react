@@ -34,15 +34,18 @@ class CourseEditor extends React.Component{
     }
 
     render(){
+        document.body.style.backgroundColor = "#6c757d";
         return(
             <Router>
-                <div className="container-fluid">
-                    <h2>Editing course: {this.state.course.title}</h2>
-                    <div className="row">
-                        <div className="col-4">
+                <div style={{ height: '100%'}} >
+                    <div className="bg-dark text-white container-fluid">
+                        <h1>{this.state.course.title}</h1>
+                    </div>
+                    <div className="row" style={{height: '100%'}}>
+                        <div className="col-4 bg-dark text-white"  style={{height: '100%'}}>
                             <ModuleList courseId={this.state.courseId} courseTitle={this.state.course.title}/>
                         </div>
-                        <div className="col-8">
+                        <div className="col-8 text-white"  style={{height: '100%', width: '100%'}}>
                             <Route path="/course/:courseId/edit/:moduleId/edit"
                                    component={ModuleEditor}>
                             </Route>

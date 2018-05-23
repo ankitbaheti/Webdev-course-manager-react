@@ -27,6 +27,7 @@ export default class LessonService {
     }
 
     createLesson(moduleId, lesson) {
+        console.log(lesson);
         return fetch(LESSON_API_URL.replace('MID', moduleId),{
             body: JSON.stringify(lesson),
             headers: { 'Content-Type': 'application/json' },
