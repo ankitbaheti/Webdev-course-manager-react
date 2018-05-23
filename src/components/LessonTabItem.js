@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 class ModuleListItem extends React.Component{
 
@@ -10,11 +9,9 @@ class ModuleListItem extends React.Component{
     render(){
         return(
             <li className="list-group-item">
-                <Link to={`/course/${this.props.courseId}/edit/${this.props.module.id}/edit`}>
-                    {this.props.module.title}
-                </Link>
+                {this.props.lesson.title}
                 <span className="float-right">
-                    <i className="fa fa-trash" onClick={() => this.props.delete(this.props.module.id)}></i>
+                    <i className="fa fa-trash ml-2" onClick={() => this.props.delete(this.props.lesson.id)}></i>
                 </span>
             </li>
         );

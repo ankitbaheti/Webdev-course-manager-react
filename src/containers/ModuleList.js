@@ -7,6 +7,7 @@ class ModuleList extends React.Component{
         super(props);
         this.state = {
             courseId:'',
+            courseTitle:'',
             module: {
                 title: ''
             },
@@ -21,10 +22,12 @@ class ModuleList extends React.Component{
 
     componentDidMount(){
         this.setCourseId(this.props.courseId);
+        this.setCourseTitle(this.props.courseTitle);
     }
 
     componentWillReceiveProps(newProps){
         this.setCourseId(newProps.courseId);
+        this.setCourseTitle(newProps.courseTitle);
         this.findAllModulesForCourse(newProps.courseId);
     }
 
@@ -35,7 +38,7 @@ class ModuleList extends React.Component{
     findAllModulesForCourse(courseId) {
         this.moduleService
             .findAllModulesForCourse(courseId)
-            .then((modules) => {this.setModules(modules)});
+            .then((modules) => {this.setState({modules: modules})});
     }
 
     setModuleTitle(event) {
@@ -55,17 +58,25 @@ class ModuleList extends React.Component{
         this.setState({courseId: courseId});
     }
 
+    setCourseTitle(courseTitle) {
+        this.setState({courseTitle: courseTitle})
+    }
+
     deleteModule(moduleId){
-        this.moduleService
-            .deleteModule(moduleId)
-            .then(() => this.findAllModulesForCourse(this.state.courseId))
+        if(window.confirm("Do you want to delete this module?")) {
+            this.moduleService
+                .deleteModule(moduleId)
+                .then(() => this.findAllModulesForCourse(this.state.courseId))
+        }
     }
 
     renderListOfModules() {
         let modules =
             this.state.modules.map((module) => {
                 return (<ModuleListItem key={module.id}
-                                        module={module} delete={this.deleteModule}/>)
+                                        module={module}
+                                        courseId={this.state.courseId}
+                                        delete={this.deleteModule}/>)
             });
         return modules;
     }
@@ -73,7 +84,7 @@ class ModuleList extends React.Component{
     render(){
         return(
             <div>
-                <h4>Modules List for CourseId: {this.state.courseId}</h4>
+                <h4>Modules List of {this.state.courseTitle}</h4>
                 <input placeholder="New Module Name"
                        className="form-control mr-sm-2 mb-2"
                        onChange={this.setModuleTitle}>
