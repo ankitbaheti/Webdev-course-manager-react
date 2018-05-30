@@ -2,6 +2,15 @@ import React from 'react'
 import LessonTabs from './LessonTabs'
 import ModuleService from '../services/ModuleService';
 import CourseService from '../services/CourseService';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {Provider} from 'react-redux'
+import {createStore} from 'redux'
+import {widgetReducer} from "../reducers/widgetReducer"
+import App from './widgetList'
+
+
+
+let store = createStore(widgetReducer);
 
 class ModuleEditor extends React.Component{
 
@@ -61,10 +70,20 @@ class ModuleEditor extends React.Component{
 
     render(){
         return(
-            <div className="bg-dark container-fluid p-2" style={{height: '100%'}}>
-                <h4 className="container-fluid">Editing Module: {this.state.module.title}</h4>
-                <LessonTabs moduleId={this.state.moduleId}/>
-            </div>
+            <Router>
+                <div className="bg-dark container-fluid p-2" style={{height: '100%'}}>
+                    <h4 className="container-fluid">Editing Module: {this.state.module.title}</h4>
+                    <div>
+                        <LessonTabs courseId = {this.state.courseId} moduleId={this.state.moduleId}/>
+                    </div>
+                    <div style={{height: '100%'}}>
+                        <Provider store = {store}>
+                            <Route path="/course/:courseId/edit/:moduleId/edit/:lessonId/edit"
+                                   component={App}/>
+                        </Provider>
+                    </div>
+                </div>
+            </Router>
         )
     }
 }

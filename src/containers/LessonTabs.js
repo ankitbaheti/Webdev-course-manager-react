@@ -12,6 +12,7 @@ class LessonTabs extends React.Component {
         this.deleteLesson = this.deleteLesson.bind(this);
         this.state = {
             moduleId: '',
+            courseId:'',
             lessons: [],
             lesson: {
                 title: ''
@@ -21,10 +22,12 @@ class LessonTabs extends React.Component {
 
     componentDidMount() {
         this.setModuleId(this.props.moduleId);
+        this.setCourseId(this.props.courseId);
     }
 
     componentWillReceiveProps(newProps) {
         this.setModuleId(newProps.moduleId);
+        this.setCourseId(newProps.courseId);
         this.findAllLessonsForModule(newProps.moduleId);
     }
 
@@ -55,6 +58,10 @@ class LessonTabs extends React.Component {
         this.setState({moduleId: moduleId});
     }
 
+    setCourseId(courseId) {
+        this.setState({courseId: courseId});
+    }
+
     findAllLessonsForModule(moduleId) {
         this.lessonService
             .findAllLessonsForModule(moduleId)
@@ -76,6 +83,8 @@ class LessonTabs extends React.Component {
             this.state.lessons.map((lesson) => {
                 return (<LessonTabItem key={lesson.id}
                                        lesson={lesson}
+                                       courseId={this.state.courseId}
+                                       moduleId={this.state.moduleId}
                                        delete={this.deleteLesson}/>)
             });
         return lessons;
@@ -98,7 +107,6 @@ class LessonTabs extends React.Component {
                         </button>
                     </form>
                 </nav>
-                <hr className= "bg-white"/>
                 <div className="container-fluid" style={{width: '100%', height: '100%'}}>
                     <ul className="nav nav-tabs">
                         {this.renderListOfLesson()}
